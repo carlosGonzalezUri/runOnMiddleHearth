@@ -1,0 +1,7 @@
+{
+  "name": "runOnMiddleHearth",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
