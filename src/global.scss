@@ -34,4 +34,23 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+// @import "@ionic/angular/css/palettes/dark.system.css";
+
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'roboo-con';
+    src: url('./assets/fonts/RobotoCondensed-VariableFont_wght.ttf');
+}
+
+
+* {
+    font-family: 'roboo-con' /* Replace with your custom font */ !important;
+  }
+
+  :root {
+    --bgColor: white; //main background
+    --markColor: #fc4c02; //strava color
+    --titleColor: black;
+    --fontColor: black;
+    --antiFontColor: white;
+  }

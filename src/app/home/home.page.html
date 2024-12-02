@@ -1,20 +1,118 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      <div class="header-title">
+        <span class="header-title-0">
+          {{ 'LITERALS.title0' | translate }}
+        </span>
+        <span class="header-title-x">
+          X
+        </span>
+        <span class="header-title-1">
+          {{ 'LITERALS.title2' | translate }}
+        </span>
+      </div>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-content [fullscreen]="true" >
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+    <div class="main-card">
+      <div class="main-card-data">
+        <span class="main-card-data--kms">{{currentDistanceKilometers}}.</span>
+        <span class="main-card-data--mts">{{currentDistanceMeters}}</span>
+        <span class="main-card-data--units">{{ 'LITERALS.units' | translate }}</span>
+      </div>
+      <div class="main-card-description">
+        <span class="main-card-description--destino">{{ lastDestino | translate }}</span>
+        <span class="main-card-description--logro">{{ lastLogro | translate }}</span>
+      </div>
+    </div>
+
+    <div class="button-icons-wrapper">
+      <div class="button-icons-wrapper-single-button">
+        <span class="button-icons-wrapper-single-button-title">
+          {{ 'LITERALS.graf' | translate }}
+        </span>
+        <!-- <img  class="button-icons-wrapper-single-button--img" src="../assets/images/graf.png" alt="graphic"/> -->
+      </div>
+      <div class="button-icons-wrapper-single-button">
+        <span class="button-icons-wrapper-single-button-title">
+          {{ 'LITERALS.percentage' | translate }}
+        </span>
+        <!-- <img  class="button-icons-wrapper-single-button--img" src="../assets/images/ubi.png" alt="graphic"/> -->
+      </div>
+      <!-- <div class="button-icons-wrapper-sinlge-button">
+        <img  class="button-icons-wrapper-single-button--img" src="../assets/images/destiny.png" alt="graphic"/>
+      </div> -->
+    </div>
+
+    <div class="selected-content-wraper">
+      <app-logros
+      *ngIf="LITERALS"
+      [currentLogrosNumber]="currentLogrosNumber"
+      [LITERALS]="LITERALS"
+      ></app-logros>
+
+    </div>
+
+    <div class="data-wrapper">
+      <div class="data-wrapper-row">
+        <div class="data-wrapper-column">
+          <span class="data-wrapper--title">{{ 'LITERALS.sessions' | translate }}</span>
+          <span class="data-wrapper--number">{{currentSesionesNumber}}</span>
+        </div>
+        <div class="data-wrapper-column">
+          <span class="data-wrapper--title">{{ 'LITERALS.percentage' | translate }}</span>
+          <span class="data-wrapper--number">{{currentPercentageNumber}}%</span>
+        </div>
+        <div class="data-wrapper-column">
+          <span class="data-wrapper--title">{{ 'LITERALS.currentMedia' | translate }}</span>
+          <span class="data-wrapper--number">{{currentMediaNumber}}<span class="data-wrapper--units">
+            {{ 'LITERALS.units' | translate}}
+          </span></span>
+          
+        </div>
+      </div>
+      <div class="data-wrapper-row">
+        <div class="data-wrapper-column">
+          <span class="data-wrapper--title">{{ 'LITERALS.totalLogros' | translate }}</span>
+          <span class="data-wrapper--number">{{currentLogrosNumber}}</span>
+        </div>
+        <div class="data-wrapper-column">
+          <span class="data-wrapper--title">{{ 'LITERALS.currentLongest' | translate }}</span>
+          <span class="data-wrapper--number">{{currentLongestNumber}}</span>
+        </div>
+        <div class="data-wrapper-column">
+          <span class="data-wrapper--title">{{ 'LITERALS.steps' | translate }}</span>
+          <span class="data-wrapper--number">{{currentStepsNumber}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="utils-btns-wrapper">
+      <div class="utils-btns-wrapper-btn utils-btns-wrapper-btn--settings">
+        <span>{{ 'LITERALS.settings' | translate | uppercase }}</span>
+      </div>
+      <div class="utils-btns-wrapper-btn utils-btns-wrapper-btn--add" (click)="openAlertAskForData()">
+        <span>{{ 'LITERALS.add' | translate | uppercase }}</span>
+      </div>
+    </div>
+  
+    <div class="next-tag-wrapper" [ngClass]="{'hide': !isShowFooterCard }">
+
+      <div class="next-tag-content" (click)="showFooterCard()">
+        <div class="next-tag-content-title">{{ 'LITERALS.next' | translate }}</div>
+        <div class="next-tag-content-data">
+          <div class="next-tag-content-data--numbers">1888 {{ 'LITERALS.units' | translate }}</div>
+          <div class="next-tag-content-data--description">"Lo más lejano que nunca fui y que me gustaría ir pero que no iré porque no me da la gana y luego mas</div>
+        </div>
+        <div class="next-tag-content-button">NEXT</div>
+      </div>   
+   
+    </div>
+
   </div>
 </ion-content>
