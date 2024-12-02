@@ -7,6 +7,7 @@ import { Iliterals, IUbicacion } from '../commons/commons.interface';
   selector: 'app-logros',
   templateUrl: './logros.component.html',
   styleUrls: ['./logros.component.scss'],
+  standalone: false,
 })
 export class LogrosComponent  implements OnInit {
   @Input() currentLogrosNumber!: number;
