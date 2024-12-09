@@ -1,0 +1,23 @@
+<div (click)="changeProgress()">
+  <div class="progress-bar">
+    <div class="progress-bar--point">
+      <div class="progress-bar--circle"></div>
+      <!-- <div class="progress-bar--title">Ahora</div> -->
+    </div>
+    <progress 
+      *ngIf="progress"
+      class="progress-bar--bar"
+      max="100"
+      value="{{progress}}"
+    ></progress>
+    <span class="progress-bar--progres">{{progress}}%</span>
+    <div class="progress-bar--point">
+      <div class="progress-bar--circle"></div>
+      <!-- <div class="progress-bar--title">Mordor</div> -->
+    </div>
+  </div>
+  <div class="progress-bar-description">
+    <div class="progress-bar-description--title">{{fromLocation | translate}}</div>
+    <div class="progress-bar-description--title">{{toLocation | translate}}</div>
+  </div>
+</div>

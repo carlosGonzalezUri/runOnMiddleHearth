@@ -1,0 +1,42 @@
+<ion-content class="settings">
+  <div 
+    class="settings--header"
+    (click)="close()"
+    >
+    <img src="../../assets/icons/close.png" alt="" />
+  </div>
+  <div class="settings--content">
+    <div  class="settings--content-user-params section">
+      {{'LITERALS.dateOfInit' | translate}}: {{initDay}}
+    </div>
+    <div class="settings--content-lang-selector section">
+      <div (click)="selectLang('es')" class="settings--content-lang-selector--lang btn">
+        <img src="../../assets/icons/spain.png" alt="" />
+          <span class="data-wrapper--number">
+            {{'LITERALS.spanish' | translate}}
+          </span>
+      </div>
+      <div (click)="selectLang('en')" class="settings--content-lang-selector--lang btn">
+        <img src="../../assets/icons/eng.png" alt="" />
+          <span class="data-wrapper--number">
+            {{'LITERALS.english' | translate}}
+          </span>
+      </div>
+    </div>
+    <div class="settings--content-reset section">
+      <span *ngIf="alertReset" (click)="resetAll()" class="settings--content-reset--soft btn">{{'LITERALS.confirmResetHeader' | translate}}</span>
+      <span *ngIf="confirmReset" class="settings--content-reset--advice">{{'LITERALS.resetDateSubtitle' | translate}}</span>
+      <span *ngIf="confirmReset" (click)="resetAll()" class="settings--content-reset--hard btn">{{'LITERALS.confirmReset' | translate}}</span>
+    </div>
+    <div class="settings--content-policy section">
+      <div (click)="showPolicy()">
+        {{'LITERALS.policy' | translate}}
+      </div>
+    </div>
+    <app-legal *ngIf="isShowPolicy"></app-legal>
+  </div>
+
+
+
+
+</ion-content>

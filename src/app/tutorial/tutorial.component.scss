@@ -1,0 +1,48 @@
+.tutorial {
+    
+    &--content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding: 8px;
+        gap: 8px;
+        font-size: 18px;
+    }
+
+    &--title {
+        font-size: 24px;
+        color: var(--markColor);
+        font-weight: bold;
+        text-align: center;
+        padding-bottom: 14px;
+        border-bottom: 1px solid black;
+    }
+
+    &--subtitle {
+        font-size: 20px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid black;
+    }
+
+    &--text4 {
+        font-size: 20px;
+        color: var(--markColor);
+        font-weight: bold;
+    }
+
+    &--button-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        .btn {
+            padding: 8px;
+            border: 1px solid black;
+            border-radius: 4px;
+            width: 50%;
+            background-color: var(--markColor);
+            color: var(--antiFontColor);
+            font-weight: bold;
+        }
+    }
+}

@@ -5,8 +5,8 @@ export interface Iliterals {
 export interface IUserData {
     sessions: IUserSession[];
     initDate: Date;
-    userId: string;
-    userToken: string;
+    userId?: string;
+    userToken?: string;
 }
 
 export interface IUserSession {

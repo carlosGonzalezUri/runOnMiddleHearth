@@ -1,5 +1,6 @@
 {
   "LITERALS": {
+    "title0": "Way",
     "title1": "Running through",
     "title2": "Epic Route",
     "youAre": "You are in",
@@ -113,14 +114,29 @@
     "logro_27": "Let's go for the secret staircase",
     "ubicacion_28": "Spider's Lair",
     "logro_28": "Master must enter the tunnel",
-    "ubicacion_29": "Meeting with the spider",
-    "logro_29": "",
+    "ubicacion_29": "Fight with the spider",
+    "logro_29": "Don't go where I can't follow you, wake up!",
+    "ubicacion_30": "Escape from the orcs",
+    "logro_30": "You can't walk through Mordor in your underwear",
+    "ubicacion_31": "Path to Barad-dûr",
+    "logro_31": "We've reached Mordor",
+    "ubicacion_32": "Continuing the path through Barad-dûr",
+    "logro_32": "The orcs are leaving",
+    "ubicacion_33": "Mount Doom",
+    "logro_33": "Certain death, slim chance of success. What are we waiting for?",
+    "ubicacion_34": "Where they leave the luggage",
+    "logro_34": "I don't think there will be a return journey",
+    "ubicacion_35": "Mount Doom",
+    "logro_35": "It's done, it's finally over",
     "edit": "Edit",
     "editSubtitle": "You can edit manually entered activity data",
     "confirmEdit": "Edit",
     "youNeedGoogleSCHeader": "Sync Error",
     "youNeedGoogleSCSubHeader": "You need to have Google Fit and Google Fit Sync installed y con permisos",
     "youNeedGoogleSCHeaderMessage": "You can find Google Fit and Google Fit Sync in the Store, then provide permissions to this APP",
-    "policy": "Show privacy policy"
+    "policy": "Show privacy policy",
+    "end_congrats": "Congratulations",
+    "end_subheader": "You have completed the challenge",
+    "end_message": "You can restart the challenge or begin a new one by downloading another epic route from settings"
   }
 }

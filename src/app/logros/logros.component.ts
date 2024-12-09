@@ -9,22 +9,27 @@ import { Iliterals, IUbicacion } from '../commons/commons.interface';
   styleUrls: ['./logros.component.scss'],
   standalone: false,
 })
-export class LogrosComponent  implements OnInit {
-  @Input() currentLogrosNumber!: number;
-  @Input() LITERALS!: Iliterals
+export class LogrosComponent {
+  @Input() set currentLogrosNumber(logros: number) {
+    this._currentLogrosNumber = logros;
+    this.setprogressList();
+  }
+  @Input() LITERALS!: Iliterals;
 
   public recorrido = recorrido;
-
   public progressList: IUbicacion[] = [];
+
+  private _currentLogrosNumber!: number;
 
   constructor() { }
 
-  ngOnInit() {
-    this.setprogressList();
+  public getBackgroundImg(index: number) {
+    return "../../assets/images/ubi"+index+".png";
   }
 
   private setprogressList(): void {
-    for(let i=0; i<this.currentLogrosNumber; i++) {
+    this.progressList = [];
+    for(let i=0; i<this._currentLogrosNumber; i++) {
      this.progressList.push(recorrido.recorrido[i])
     }
   }

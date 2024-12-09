@@ -1,0 +1,67 @@
+.progress-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &--point {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        width: 15%;
+    }
+
+    &--circle {
+        display: flex;
+        align-self: center;
+        border: 1px solid red;
+        background-color: white;
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+    }
+
+    &-description {
+        display: flex;
+        justify-content: space-between;
+
+        &--title {
+            max-width: 40%;
+            // display: flex;
+            // justify-content: center;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+
+    &--progres {
+      color: black;
+      position: absolute;
+      right: 45%;
+    }
+
+    progress {
+        appearance: none; // Elimina los estilos predeterminados del navegador.
+        -webkit-appearance: none;
+      
+        &::-webkit-progress-bar {
+          background-color: #f3f3f3; // Color del fondo de la barra
+        //   border-radius: 10px; // Esquinas redondeadas
+          overflow: hidden; // Asegura que los bordes no sobresalgan
+        }
+      
+        &::-webkit-progress-value {
+          background-color: var(--markColor); // Color del progreso (barra llena)
+        //   border-radius: 10px 0 0 10px; // Esquinas redondeadas en el extremo izquierdo
+        }
+      
+        &::-moz-progress-bar {
+          background-color: #4caf50; // Color del progreso para Firefox
+        }
+      
+        width: 80%; // Ajusta el ancho del progreso según lo necesites
+        height: 20px; // Ajusta la altura
+        border: 1px solid white; // Opcional: elimina bordes si el navegador los aplica
+        // border-radius: 10px; // Esquinas redondeadas
+      }
+}

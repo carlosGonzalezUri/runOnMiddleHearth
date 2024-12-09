@@ -7,6 +7,11 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { LogrosComponent } from '../logros/logros.component';
+import { GraficaComponent } from '../grafica/grafica.component';
+import { ProgressbarComponent } from '../progressbar/progressbar.component';
+import { SettingsComponent } from '../settings/settings.component';
+import { LegalComponent } from '../legal/legal.component';
+import { TutorialComponent } from '../tutorial/tutorial.component';
 
 
 @NgModule({
@@ -17,6 +22,14 @@ import { LogrosComponent } from '../logros/logros.component';
     HomePageRoutingModule,
     TranslateModule
   ],
-  declarations: [HomePage, LogrosComponent]
+  declarations: [
+    HomePage,
+    LogrosComponent,
+    GraficaComponent,
+    ProgressbarComponent,
+    SettingsComponent,
+    LegalComponent,
+    TutorialComponent
+  ]
 })
 export class HomePageModule {}

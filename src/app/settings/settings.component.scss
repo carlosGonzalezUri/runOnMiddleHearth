@@ -1,0 +1,60 @@
+.settings {
+    &--header {
+        display: flex;
+        justify-content: end;
+
+        img {
+            width: 20px;
+            margin-right: 8px;
+        }
+    }
+
+    &--content {
+        padding: 16px;
+
+        & .section {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            padding-bottom: 24px;
+            padding-top: 24px;
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+        }
+
+        &-lang-selector{
+            
+            &--lang {
+                display: flex;
+                flex-direction: row;
+            }
+
+            img {
+                display: flex;
+                width: 15px;
+                height: 15px;
+            }
+        }
+
+        &-reset {
+            display: flex;
+            flex-direction: column !important;
+            justify-content: center;
+            gap: 8px;
+
+            &--soft {
+                display: flex;
+                justify-content: center;
+            }
+
+            &--hard {
+                background-color: red;
+                color: white;
+            }
+
+            &--advice {
+                color: red;
+            }
+        }
+    }
+}

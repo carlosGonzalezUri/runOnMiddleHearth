@@ -206,9 +206,44 @@
         {
             "id": 30,
             "ubicacion": "LITERALS.ubicacion_30",
-            "distancia_km": 2896.82,
+            "distancia_km": 2653.80,
             "logro": "LITERALS.logro_30",
-            "distancia_millas": 1798.47
+            "distancia_millas": 1649.00
+        },
+        {
+            "id": 31,
+            "ubicacion": "LITERALS.ubicacion_31",
+            "distancia_km": 2785.77,
+            "logro": "LITERALS.logro_31",
+            "distancia_millas": 1731
+        },
+        {
+            "id": 32,
+            "ubicacion": "LITERALS.ubicacion_32",
+            "distancia_km": 2809.92,
+            "logro": "LITERALS.logro_32",
+            "distancia_millas": 1746
+        },
+        {
+            "id": 33,
+            "ubicacion": "LITERALS.ubicacion_33",
+            "distancia_km": 2858.19,
+            "logro": "LITERALS.logro_33",
+            "distancia_millas": 1776
+        },
+        {
+            "id": 34,
+            "ubicacion": "LITERALS.ubicacion_34",
+            "distancia_km": 2874.28,
+            "logro": "LITERALS.logro_34",
+            "distancia_millas": 1786
+        },
+        {
+            "id": 35,
+            "ubicacion": "LITERALS.ubicacion_35",
+            "distancia_km": 2896.81,
+            "logro": "LITERALS.logro_35",
+            "distancia_millas": 1800
         }
     ]
 }

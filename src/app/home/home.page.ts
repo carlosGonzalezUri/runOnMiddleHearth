@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IUbicacion, IUserData, Iliterals } from '../commons/commons.interface';
-import { LOCAL_STORAGE } from '../commons/commons.constants';
+import {
+  IUbicacion,
+  IUserData,
+  IUserSession,
+  Iliterals,
+} from '../commons/commons.interface';
+import { LOCAL_STORAGE, ONE_STEP_METERS } from '../commons/commons.constants';
 import recorrido from '../../assets/data/eventsMordor.json';
 import { UtilsService } from '../utils.service';
 import { AlertController } from '@ionic/angular';
-
 
 @Component({
   selector: 'app-home',
@@ -29,13 +33,27 @@ export class HomePage implements OnInit {
 
   public currentSesionesNumber!: number;
   public currentPercentageNumber!: number;
+  public progressBar!: string;
   public currentMediaNumber!: number;
   public currentLogrosNumber!: number;
   public currentLongestNumber!: number;
   public currentKmsNumber!: number;
-  public currentStepsNumber!: number
+  public currentStepsNumber!: number;
 
-  // private initUserData : IUserData;
+  public kmsToNextLogro!: number;
+  public nextStop!: string;
+  public stepsToNextLogro!: number;
+
+  public userSessions!: IUserSession[];
+
+  public isShowLogros = false;
+  public isShowGrafica = true;
+
+  public oneStepMetters = ONE_STEP_METERS;
+
+  public showHome = true;
+  public showSettings = false;
+  public showTutorial = false;
 
   constructor(
     private translateService: TranslateService,
@@ -44,72 +62,106 @@ export class HomePage implements OnInit {
   ) {
     translateService.setDefaultLang('es');
   }
-  
-  ngOnInit(): void {
-    this.initLiterals();
 
-    this.initApp();
+  ngOnInit(): void {
+    this.setPreviousLang()
+    this.initLiterals();
+  }
+
+  public showLogros(): void {
+    this.isShowLogros = true;
+    this.isShowGrafica = false;
+  }
+
+  public showGrafica(): void {
+    this.isShowLogros = false;
+    this.isShowGrafica = true;
   }
 
   public showFooterCard() {
     this.isShowFooterCard = !this.isShowFooterCard;
   }
 
+  public openSettings() {
+    this.hideHome();
+    this.showSettings = true;
+  }
+
+  public onCloseSettings() {
+    this.showSettings = false;
+    this.setShowHome();
+  }
+
+  public openTutorial() {
+    this.hideHome();
+    this.showTutorial = true;
+  }
+
+  public onCloseTutorial() {
+    this.showTutorial = false;
+    this.setShowHome();
+    this.initUser();
+  }
+
   public async openAlertAskForData() {
     const alert = await this.alertController.create({
-      header: 'header',
-      subHeader: 'subHeader',
-      message: 'message',
+      header: this.LITERALS['stepsPlaceholder'],
+      subHeader: this.LITERALS['stepsSubtitle'],
+      message: this.LITERALS['stepsTitle'],
       inputs: [
         {
           placeholder: this.LITERALS['steps'],
           name: 'steps',
-          type: 'number'
-      }],    
+          type: 'number',
+        },
+      ],
       buttons: [
-          {
-              text: 'Cancel',
-              role: 'cancel',
-              cssClass: 'secondary',
-              handler: () => {
-                  console.log('Confirm Cancel');
-              }
-          }, 
-          {
-              text: 'Ok',
-              handler: (alertData) => { //takes the data 
-                  this.addNewRegister(alertData.steps)
-              }
-          }
-      ]
-  });
-  await alert.present();
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          },
+        },
+        {
+          text: 'Ok',
+          handler: (alertData) => {
+            //takes the data
+            this.addNewRegister(alertData.steps);
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 
   private addNewRegister(distanceInSteps: string, date?: Date) {
-    if(!date) {
-      date = new Date();
+    if (Number(distanceInSteps) >= 1) {
+      if (!date) {
+        date = new Date();
+      }
+      const userData: IUserData = this.us.getLS(LOCAL_STORAGE.userData);
+
+      userData.sessions.push({
+        date,
+        steps: Number(distanceInSteps),
+      });
+      this.us.setLS(LOCAL_STORAGE.userData, userData);
+
+      this.initData();
     }
-    const userData: IUserData  = this.us.getLS(LOCAL_STORAGE.userData);
-
-    userData.sessions.push({
-      date,
-      steps: Number(distanceInSteps)
-    });
-    this.us.setLS(LOCAL_STORAGE.userData, userData);
-
-    this.initData();
   }
 
   private initLiterals() {
-    this.translateService.get('LITERALS').subscribe(
-      (res: Iliterals) => {
-        this.LITERALS = res;
-    })
+    this.translateService.get('LITERALS').subscribe((res: Iliterals) => {
+      this.LITERALS = res;
+      this.initApp();
+    });
   }
 
   private initApp() {
-    if(this.isFirstInit()) {
+    if (this.isFirstInit()) {
       this.firstSteps();
     } else {
       this.initData();
@@ -122,43 +174,66 @@ export class HomePage implements OnInit {
   }
 
   private firstSteps() {
-    // Show tutorial alert
-    // Ask for first session
-    const userDataMock: IUserData = {
-      sessions: [
-        { date: new Date('2023-11-25'), steps: 8723 },
-        { date: new Date('2023-11-26'), steps: 6471 },
-        { date: new Date('2023-11-27'), steps: 7542 },
-        { date: new Date('2023-11-28'), steps: 9823 },
-        { date: new Date('2023-11-29'), steps: 5634 },
-        { date: new Date('2023-11-30'), steps: 7218 },
-        { date: new Date('2023-12-01'), steps: 8094 }
-      ],
-      initDate: new Date(),
-      userId: '',
-      userToken: ''
-    }
-    this.us.setLS(LOCAL_STORAGE.userData, userDataMock);
+    this.askForFirstSteps();
+  }
 
-    this.initApp();
+  private async askForFirstSteps() {
+    this.openTutorial();
+  }
+
+  private initUser() {
+    const initData: IUserData = {
+      sessions: [],
+      initDate: new Date(),
+    };
+    this.us.setLS(LOCAL_STORAGE.userData, initData);
+    this.openAlertAskForData();
   }
 
   private initData() {
     const userData = this.getUserData();
     const currentTotalKMS = this.getCurrentDistanceKM(userData);
+
     this.currentDistanceKilometers = Math.trunc(currentTotalKMS);
     this.currentDistanceMeters = this.getMetersFromCurrentDistance(currentTotalKMS);
     this.lastUbicacion = this.us.getLastUbicacion(currentTotalKMS);
     this.lastDestino = this.lastUbicacion.ubicacion;
     this.lastLogro = this.lastUbicacion.logro;
 
-    this.currentSesionesNumber = userData.sessions.length;;
-    this.currentMediaNumber = this.calculateMedia(currentTotalKMS, this.currentSesionesNumber);
+    this.currentSesionesNumber = userData.sessions.length;
+    this.currentMediaNumber = this.calculateMedia(
+      currentTotalKMS,
+      this.currentSesionesNumber
+    );
     this.currentLogrosNumber = this.lastUbicacion.id;
-    this.currentPercentageNumber = this.us.calculatePercentage(currentTotalKMS, this.recorrido.recorrido);
+    this.currentPercentageNumber = this.us.calculatePercentage(
+      currentTotalKMS,
+      this.recorrido.recorrido
+    );
+    this.progressBar = Math.round(this.currentPercentageNumber).toString();
+
     this.currentLongestNumber = this.us.longestSession(userData.sessions).steps;
     this.currentKmsNumber = this.currentDistanceKilometers;
-    this.currentStepsNumber = this.us.getTotalSteps(userData.sessions);;
+    this.currentStepsNumber = this.us.getTotalSteps(userData.sessions);
+
+    this.loadChart(userData);
+
+    if (this.isFinishTheWay()) {
+      this.gameOver();
+      return;
+    }
+
+    this.kmsToNextLogro = this.us.formatToTwoDecimals(
+      recorrido.recorrido[this.lastUbicacion.id].distancia_km - currentTotalKMS
+    );
+    this.nextStop = recorrido.recorrido[this.lastUbicacion.id].ubicacion;
+    this.stepsToNextLogro = Math.round(
+      this.kmsToNextLogro * this.oneStepMetters
+    );
+  }
+
+  private loadChart(userData: IUserData): void {
+    this.userSessions = userData.sessions;
   }
 
   private getUserData(): IUserData {
@@ -172,9 +247,9 @@ export class HomePage implements OnInit {
 
   private getMetersFromCurrentDistance(distance: number) {
     const decimales = distance.toString().split('.')[1];
-    
+
     if (!decimales) {
-        return '';
+      return '';
     }
     const tresUltimosDecimales = decimales.slice(-3);
     return tresUltimosDecimales;
@@ -184,6 +259,37 @@ export class HomePage implements OnInit {
     return this.us.calculateMedia(distance, sessionsNumber);
   }
 
+  private setShowHome() {
+    this.showHome = true;
+  }
 
+  private hideHome() {
+    this.showHome = false;
+  }
 
+  private isFinishTheWay(): boolean {
+    return this.lastUbicacion.id === recorrido.recorrido.length;
+  }
+
+  private async gameOver() {
+    const alert = await this.alertController.create({
+      header: this.LITERALS['end_congrats'], //enhorabuena
+      subHeader: this.LITERALS['end_subheader'], //se acabo, puedes ver el resumen en ajustes
+      message: this.LITERALS['end_message'], //si quieres reiniciar el reto, puedes hacerlo desde ajustes
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            console.log('Confirm Cancel');
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  private setPreviousLang() {
+    const prevLang = this.us.getLS(LOCAL_STORAGE.lang);
+    this.translateService.setDefaultLang(prevLang ?? 'es');
+  }
 }

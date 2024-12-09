@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import Chart, { ChartItem } from 'chart.js/auto';
+import { IUserSession } from '../commons/commons.interface';
+import { UtilsService } from '../utils.service';
+
 
 @Component({
   selector: 'app-grafica',
@@ -6,9 +11,66 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./grafica.component.scss'],
 })
 export class GraficaComponent  implements OnInit {
+  // @Input() userSessions!: IUserSession[];
+  @Input() set userSessions(sessions: IUserSession[]) {
+    this.configChart(sessions);
+  }
 
-  constructor() { }
 
-  ngOnInit() {}
+  constructor(
+    private us: UtilsService
+  ) {}
+
+  public newChart!: Chart;
+
+  ngOnInit() {
+    // this.configChart();
+  }
+
+  private configChart(sessions: IUserSession[]) {
+    if(!sessions) {
+      return;
+    }
+    if(this.newChart) {
+      this.newChart.destroy();
+    }
+    setTimeout(() => {
+      this.newChart = new Chart(
+        document.getElementById('progress-chart') as ChartItem,
+        {
+          type: 'line',
+          data: this.getCharData(sessions),
+          options: {
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+            elements: {
+              line: {
+                borderColor: 'black',
+              },
+            },
+          },
+        }
+      );
+      this.newChart.draw();
+    });
+  }
+
+  private getCharData(sessions: IUserSession[]) {
+    const charData = sessions
+
+    return {
+      labels: charData?.map((row: { date: any }) => this.us.formatDate(row.date)),
+      datasets: [
+        {
+          data: charData?.map((row: { steps: any }) => row.steps),
+          borderColor: '#fc4c02',
+          tension: 0.2
+        },
+      ],
+    };
+  }
 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IUbicacion, IUserSession } from './commons/commons.interface';
-import { ONE_STEP_METERS } from './commons/commons.constants';
+import { LOCAL_STORAGE, ONE_STEP_METERS } from './commons/commons.constants';
 import recorrido from '../assets/data/eventsMordor.json';
 
 @Injectable({
@@ -47,6 +47,15 @@ export class UtilsService {
     return objetoString ? JSON.parse(objetoString) : null;
   }
 
+  public resetLS() {
+    localStorage.clear();
+    this.reloadApp();
+  }
+
+  public reloadApp() {
+    location.href = location.href;
+  }
+
   public calculatePercentage(kmsActuales: number, recorrido: IUbicacion[]): number {
     // Obtener la distancia total del recorrido (en kilómetros)
     const distanciaTotal = recorrido[recorrido.length - 1].distancia_km;
@@ -69,5 +78,14 @@ export class UtilsService {
       (acumulado, sesion) => acumulado + sesion.steps, 0);
 
     return totalPasos;
+  }
+
+  public formatDate(date: Date) {
+    date = new Date(date);
+    return date.toISOString().slice(2, 10).replace(/-/g, '/').split('/').reverse().join('/');
+  }
+
+  public formatToTwoDecimals(num: number) {
+    return parseFloat(num.toFixed(2));
   }
 }
