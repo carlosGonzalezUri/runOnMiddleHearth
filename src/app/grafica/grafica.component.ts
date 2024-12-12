@@ -10,8 +10,7 @@ import { UtilsService } from '../utils.service';
   templateUrl: './grafica.component.html',
   styleUrls: ['./grafica.component.scss'],
 })
-export class GraficaComponent  implements OnInit {
-  // @Input() userSessions!: IUserSession[];
+export class GraficaComponent {
   @Input() set userSessions(sessions: IUserSession[]) {
     this.configChart(sessions);
   }
@@ -22,10 +21,6 @@ export class GraficaComponent  implements OnInit {
   ) {}
 
   public newChart!: Chart;
-
-  ngOnInit() {
-    // this.configChart();
-  }
 
   private configChart(sessions: IUserSession[]) {
     if(!sessions) {

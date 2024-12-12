@@ -9,19 +9,16 @@ import recorrido from '../../assets/data/eventsMordor.json';
   styleUrls: ['./progressbar.component.scss'],
 })
 export class ProgressbarComponent implements OnInit, OnDestroy{
-  @Input() set progressBar(progressBar: string) { //progressBar is current total %
+  @Input() set progressBar(progressBar: string) {
     this.totalProgres = Number(progressBar);
     if(this.totalProgres < 1) {
       this.totalProgres = 1;
     }
-    // this.updateProgress()
     this.setGlobalProgress();
   }
 
-  // @Input() kmsToNextLogro!: number;
   @Input() set kmsToNextLogro(kms: number) {
     this._kmsToNextLogro = kms;
-    // this.updateProgress()
     this.setLocalProgress();
   }
 
@@ -48,7 +45,7 @@ export class ProgressbarComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.setPoints();
-    // this.activateAutoChange();
+    this.activateAutoChange();
   }
 
   public changeProgress() {
@@ -71,12 +68,7 @@ export class ProgressbarComponent implements OnInit, OnDestroy{
 
   private resetInterval() {
     clearInterval(this.changeInterval);
-    // this.activateAutoChange();
-  }
-
-  private updateProgress() {
-    this.setGlobalProgress();
-    this.setLocalProgress();
+    this.activateAutoChange();
   }
 
   private setPoints(): void {

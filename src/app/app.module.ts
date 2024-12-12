@@ -21,16 +21,12 @@ export function createTranslateLoader(http: HttpClient) {
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    // TranslateModule.forRoot(
-    //   {
-    //     defaultLanguage: 'es'
-    //   }
-    // )
     TranslateModule.forRoot({
+      defaultLanguage: 'es',
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient]
+        deps: [HttpClient],
       }
     })
   ],

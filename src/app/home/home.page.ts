@@ -273,9 +273,9 @@ export class HomePage implements OnInit {
 
   private async gameOver() {
     const alert = await this.alertController.create({
-      header: this.LITERALS['end_congrats'], //enhorabuena
-      subHeader: this.LITERALS['end_subheader'], //se acabo, puedes ver el resumen en ajustes
-      message: this.LITERALS['end_message'], //si quieres reiniciar el reto, puedes hacerlo desde ajustes
+      header: this.LITERALS['end_congrats'],
+      subHeader: this.LITERALS['end_subheader'],
+      message: this.LITERALS['end_message'],
       buttons: [
         {
           text: 'Ok',

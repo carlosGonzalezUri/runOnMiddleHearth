@@ -58,7 +58,6 @@ ion-content {
       flex: 1;
       flex-direction: row;
       justify-content: center;
-      // margin-bottom: 9px;
 
       &--kms {
           font-size: 80px;
@@ -114,7 +113,6 @@ ion-content {
 
   .button-icons-wrapper {
     display: flex;
-    // flex: 1;
     flex-direction: row;
     justify-content: space-around;
     margin-bottom: 16px;
@@ -134,9 +132,6 @@ ion-content {
         text-align: center;
         font-size: 20px;
       }
-      // &--img {
-      //   height: 60px;
-      // }
     }
   }
 
