@@ -20,29 +20,49 @@
 
     &--subtitle {
         font-size: 20px;
-        padding-bottom: 14px;
+        padding-bottom: 8px;
         border-bottom: 1px solid black;
-    }
+        display: flex;
+        flex-direction: column;
 
-    &--text4 {
-        font-size: 20px;
-        color: var(--markColor);
-        font-weight: bold;
+        span {
+            font-weight: bold;
+            margin: auto;
+            margin-top: 18px;
+        }
+
+        h5 {
+            font-weight: 300;
+            margin-top: 10px;
+        }
+
+        img {
+            height: 150px;
+            border: 3px solid black;
+        }
     }
 
     &--button-wrapper {
         width: 100%;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
 
-        .btn {
-            padding: 8px;
-            border: 1px solid black;
-            border-radius: 4px;
-            width: 50%;
-            background-color: var(--markColor);
-            color: var(--antiFontColor);
-            font-weight: bold;
-        }
+    .btn {
+        padding: 8px;
+        border: 1px solid black;
+        border-radius: 4px;
+        width: 50%;
+        background-color: var(--markColor);
+        color: var(--antiFontColor);
+        font-weight: bold;
+    }
+
+    .btn-google {
+        background: lightgrey;
+        color: darkgrey;
     }
 }

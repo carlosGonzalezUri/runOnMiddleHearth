@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "13427215758",
+    "project_id": "camino-x-ruta-epica",
+    "storage_bucket": "camino-x-ruta-epica.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13427215758:android:f454a7bf3ab04f334568df",
+        "android_client_info": {
+          "package_name": "running.steps.epic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhd_nq2fRV5PnrI4Qw0kyFRRumvgJS3Z0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

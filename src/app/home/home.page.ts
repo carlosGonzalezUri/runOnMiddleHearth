@@ -191,7 +191,7 @@ export class HomePage implements OnInit {
   }
 
   private initData() {
-    const userData = this.getUserData();
+    const userData: IUserData = this.getUserData();
     const currentTotalKMS = this.getCurrentDistanceKM(userData);
 
     this.currentDistanceKilometers = Math.trunc(currentTotalKMS);
