@@ -9,7 +9,10 @@ import {
 import { LOCAL_STORAGE, ONE_STEP_METERS } from '../commons/commons.constants';
 import recorrido from '../../assets/data/eventsMordor.json';
 import { UtilsService } from '../utils.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
+import { StravaService } from '../strava.service';
+import { AppLauncher } from '@capacitor/app-launcher';
+
 
 @Component({
   selector: 'app-home',
@@ -58,7 +61,9 @@ export class HomePage implements OnInit {
   constructor(
     private translateService: TranslateService,
     private us: UtilsService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private platform: Platform,
+    private stravaService: StravaService
   ) {
     translateService.setDefaultLang('es');
   }
@@ -66,6 +71,10 @@ export class HomePage implements OnInit {
   ngOnInit(): void {
     this.setPreviousLang()
     this.initLiterals();
+  }
+
+  public async openApp() {
+    await AppLauncher.openUrl({ url: 'running.steps.epic://home'});
   }
 
   public showLogros(): void {
@@ -160,12 +169,25 @@ export class HomePage implements OnInit {
     });
   }
 
-  private initApp() {
+  private async initApp() {
+    if (this.us.isStravaModeSelected()) {
+      await this.stravaUserFlow()
+    }
+    if (!this.isOnWebAfterRedirectFromLoginOnStrava()) { //comes from strava flow and strava login redirect to camino on web
+      this.stravaService.getCodeFromUrlAndOpenAPP();
+      return;
+    }
+    
+
     if (this.isFirstInit()) {
       this.firstSteps();
     } else {
       this.initData();
     }
+  }
+
+  private async stravaUserFlow() {
+    await this.stravaService.initFlow();
   }
 
   private isFirstInit(): boolean {
@@ -291,5 +313,9 @@ export class HomePage implements OnInit {
   private setPreviousLang() {
     const prevLang = this.us.getLS(LOCAL_STORAGE.lang);
     this.translateService.setDefaultLang(prevLang ?? 'es');
+  }
+
+  private isOnWebAfterRedirectFromLoginOnStrava(): boolean {
+    return this.platform.is('hybrid');
   }
 }

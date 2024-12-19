@@ -88,4 +88,8 @@ export class UtilsService {
   public formatToTwoDecimals(num: number) {
     return parseFloat(num.toFixed(2));
   }
+
+  public isStravaModeSelected(): boolean {
+    return this.getLS(LOCAL_STORAGE.insertDataMode) === 'strava';
+  }
 }
