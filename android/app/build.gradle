@@ -50,15 +50,6 @@ dependencies {
   // https://firebase.google.com/docs/android/setup#available-libraries
 }
 
-plugins {
-  id 'running.steps.epic'
-
-  // Add the Google services Gradle plugin
-  id 'com.google.gms.google-services'
-
-  ...
-}
-
 apply from: 'capacitor.build.gradle'
 
 try {

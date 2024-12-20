@@ -18,6 +18,13 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="caminoxrutaepica" android:host="home" />
+            </intent-filter>
         </activity>
 
         <provider
@@ -27,10 +34,11 @@
             android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
         </provider>
-        <queries>
-            <package android:name="running.steps.epic" />
-        </queries>
     </application>
+
+    <queries>
+        <package android:name="running.steps.epic" />
+    </queries>
 
     <!-- Permissions -->
 

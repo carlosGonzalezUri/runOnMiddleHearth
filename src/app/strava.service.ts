@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AppLauncher } from '@capacitor/app-launcher';
 import { LOCAL_STORAGE } from './commons/commons.constants';
 import { UtilsService } from './utils.service';
 import { IUserData } from './commons/commons.interface';
@@ -167,7 +166,7 @@ export class StravaService {
   public async getCodeFromUrlAndOpenAPP() {
     const code = this.getCodeFromUrl(window.location.href);
     // window.location.href = 'epicroutes://data?code=' + code + '&scope'; //TODO CHANGE
-    await AppLauncher.openUrl({ url: 'running.steps.epic://home?code='+code+'&scope'});
+    // await AppLauncher.openUrl({ url: 'running.steps.epic://home?code='+code+'&scope'});
   }
 
   private getCodeFromUrl(stringUrl: any) {

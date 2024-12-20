@@ -11,8 +11,6 @@ import recorrido from '../../assets/data/eventsMordor.json';
 import { UtilsService } from '../utils.service';
 import { AlertController, Platform } from '@ionic/angular';
 import { StravaService } from '../strava.service';
-import { AppLauncher } from '@capacitor/app-launcher';
-
 
 @Component({
   selector: 'app-home',
@@ -74,7 +72,8 @@ export class HomePage implements OnInit {
   }
 
   public async openApp() {
-    await AppLauncher.openUrl({ url: 'running.steps.epic://home'});
+    // await AppLauncher.openUrl({ url: 'running.steps.epic'});
+    window.location.href = 'caminoxrutaepica://home'
   }
 
   public showLogros(): void {
@@ -174,7 +173,7 @@ export class HomePage implements OnInit {
       await this.stravaUserFlow()
     }
     if (!this.isOnWebAfterRedirectFromLoginOnStrava()) { //comes from strava flow and strava login redirect to camino on web
-      this.stravaService.getCodeFromUrlAndOpenAPP();
+      // this.stravaService.getCodeFromUrlAndOpenAPP();
       return;
     }
     
