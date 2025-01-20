@@ -32,17 +32,8 @@ export class TutorialComponent  implements OnInit {
     }
   }
   
-  private async initStravaFlow() {
-    this.stravaService.goToStravaPageToAskForCodeFirstTime();
-    // await this.stravaService.getAccessToken();
-    // go to strava page and ask for code
-    // ---- this web should ask for code and then open the app with code on url
-    // come back and catch the code from UrlHandlingStrategy
-
-    // with code ask for sessions
-    // formats strava sessions to iusersessions
-    // save user sessions on LC
-    // emit close tutorial
+  private async initStravaFlow() { //#strava-step 0 - user select strava, then login on strava
+    this.stravaService.goToStravaPageToLogin();
   }
 
 }

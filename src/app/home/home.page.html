@@ -15,10 +15,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div (click)="openApp()">
+  <!-- <div (click)="openApp()">
     Abir en aplicación
   </div>
-  <a href="caminoxrutaepica://home">Abrir mi app2</a>
+  <a href="caminoxrutaepica://home">Abrir mi app2</a> -->
 
   <div *ngIf="showHome" style="height: 100%;">
     <div id="container">
@@ -149,7 +149,7 @@
         </div>
         <div
           class="utils-btns-wrapper-btn utils-btns-wrapper-btn--add"
-          (click)="openAlertAskForData()"
+          (click)="askForNewData()"
         >
           <span>{{ 'LITERALS.add' | translate | uppercase }}</span>
         </div>

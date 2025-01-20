@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
   IUbicacion,
@@ -11,6 +11,8 @@ import recorrido from '../../assets/data/eventsMordor.json';
 import { UtilsService } from '../utils.service';
 import { AlertController, Platform } from '@ionic/angular';
 import { StravaService } from '../strava.service';
+import { App } from '@capacitor/app';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +20,7 @@ import { StravaService } from '../strava.service';
   styleUrls: ['home.page.scss'],
   standalone: false,
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy{
   public recorrido = recorrido;
   public LITERALS!: Iliterals;
 
@@ -56,6 +58,8 @@ export class HomePage implements OnInit {
   public showSettings = false;
   public showTutorial = false;
 
+  private appUrlOpenSub: Subscription | undefined;
+
   constructor(
     private translateService: TranslateService,
     private us: UtilsService,
@@ -67,8 +71,15 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.checkAppForIncommingParams();
     this.setPreviousLang()
     this.initLiterals();
+  }
+
+  ngOnDestroy() {
+    if (this.appUrlOpenSub) {
+      this.appUrlOpenSub.unsubscribe();
+    }
   }
 
   public async openApp() {
@@ -111,7 +122,20 @@ export class HomePage implements OnInit {
     this.initUser();
   }
 
-  public async openAlertAskForData() {
+  public async askForNewData() {
+    if(this.us.isStravaModeSelected()) {
+      const stravaActivities = await this.stravaService.getUserStravaActivities();
+      const formatedActivities = this.stravaService.formatActivities(stravaActivities);
+
+      const userData: IUserData = this.us.getLS(LOCAL_STORAGE.userData);
+
+      userData.sessions = formatedActivities;
+      this.us.setLS(LOCAL_STORAGE.userData, userData);
+
+      this.initData();
+
+      return;
+    }
     const alert = await this.alertController.create({
       header: this.LITERALS['stepsPlaceholder'],
       subHeader: this.LITERALS['stepsSubtitle'],
@@ -169,37 +193,26 @@ export class HomePage implements OnInit {
   }
 
   private async initApp() {
-    if (this.us.isStravaModeSelected()) {
-      await this.stravaUserFlow()
+    //WEB FLOW
+    if(!this.isWeb()) {
+      if (window.location.href.includes('code')) {
+        this.stravaService.openAppWithCodeOnUrl();
+      } else {
+        this.stravaService.goToStravaPageToLogin();
+      }
     }
-    if (!this.isOnWebAfterRedirectFromLoginOnStrava()) { //comes from strava flow and strava login redirect to camino on web
-      // this.stravaService.getCodeFromUrlAndOpenAPP();
-      return;
-    }
-    
+    //ENDS WEB FLOW
 
     if (this.isFirstInit()) {
-      this.firstSteps();
+      this.openTutorial();
     } else {
       this.initData();
     }
-  }
-
-  private async stravaUserFlow() {
-    await this.stravaService.initFlow();
-  }
+  }  
 
   private isFirstInit(): boolean {
     const isAlreadyRegistered = this.us.getLS(LOCAL_STORAGE.userData);
     return isAlreadyRegistered === null;
-  }
-
-  private firstSteps() {
-    this.askForFirstSteps();
-  }
-
-  private async askForFirstSteps() {
-    this.openTutorial();
   }
 
   private initUser() {
@@ -208,11 +221,20 @@ export class HomePage implements OnInit {
       initDate: new Date(),
     };
     this.us.setLS(LOCAL_STORAGE.userData, initData);
-    this.openAlertAskForData();
+
+    this.askForNewData();
   }
 
-  private initData() {
-    const userData: IUserData = this.getUserData();
+  private async initData() {
+    let userData: IUserData = this.getUserData();
+
+    if (this.us.getLS(LOCAL_STORAGE.insertDataMode) === 'strava') {
+      const stravaActivities = await this.stravaService.getUserStravaActivities();
+      const formatedActivities = this.stravaService.formatActivities(stravaActivities);
+
+      userData.sessions = formatedActivities;
+    }
+
     const currentTotalKMS = this.getCurrentDistanceKM(userData);
 
     this.currentDistanceKilometers = Math.trunc(currentTotalKMS);
@@ -314,7 +336,28 @@ export class HomePage implements OnInit {
     this.translateService.setDefaultLang(prevLang ?? 'es');
   }
 
-  private isOnWebAfterRedirectFromLoginOnStrava(): boolean {
-    return this.platform.is('hybrid');
+  private isWeb(): boolean {
+    return !this.platform.is('hybrid');
+  }
+
+  private async checkAppForIncommingParams() {
+    const listener = App.addListener('appUrlOpen', async (event) => {
+      const url = event.url;
+
+      if (url) {
+        const urlParams = new URLSearchParams(url.split('?')[1]);
+        const token = urlParams.get('token');
+
+        if (token) {
+          await this.stravaService.getUserAccessToken(token);
+          await this.stravaService.saveNoCaducableAccessToken();
+
+          this.initData();
+          return;
+        }
+      }
+    });
+
+    this.appUrlOpenSub = new Subscription(async () => (await listener).remove());
   }
 }

@@ -18,6 +18,10 @@ export class UtilsService {
     return Number(totalKilometros.toFixed(3));
   }
 
+  public getStepsFromMeters(meters: number): number {
+    return 1000/ONE_STEP_METERS * meters;
+  }
+
   public getLastUbicacion(currentDistanceKilometers: number): IUbicacion {
     const recorrido = this.recorrido.recorrido;
     let ubicacionActual = null;
@@ -91,5 +95,9 @@ export class UtilsService {
 
   public isStravaModeSelected(): boolean {
     return this.getLS(LOCAL_STORAGE.insertDataMode) === 'strava';
+  }
+
+  public getModelSelected(): string {
+    return this.getLS(LOCAL_STORAGE.insertDataMode)
   }
 }

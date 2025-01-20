@@ -3,7 +3,9 @@ export const LOCAL_STORAGE = {
     registered: 'registered',
     totalDistance: 'totalDistance',
     lang: 'lang',
-    insertDataMode: 'insertDataMode'
+    insertDataMode: 'insertDataModee',
+    stravaCode: 'stravaCode',
+    stravaAccessToken: 'stravaAccessToken'
 }
 
 export const ONE_STEP_METERS = 1320;

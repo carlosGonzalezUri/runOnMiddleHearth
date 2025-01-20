@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LOCAL_STORAGE } from './commons/commons.constants';
 import { UtilsService } from './utils.service';
-import { IUserData } from './commons/commons.interface';
+import { IUserData, IUserSession } from './commons/commons.interface';
 
 
 @Injectable({
@@ -13,52 +13,19 @@ export class StravaService {
     private us: UtilsService
   ) { }
 
-  public goToStravaPageToAskForCodeFirstTime() {
+  public goToStravaPageToLogin() {//#strava-step 2 go to strava, login and open APP
     location.href = 'http://www.strava.com/oauth/authorize' 
       + '?client_id=' + this.getClientId()
       + '&response_type=code&redirect_uri=' + this.getRedirectUrl()
       + '&approval_prompt=force&scope=activity:read_all';
   }
 
-  public async getAccessToken(): Promise<any> {
-    const response = await fetch('https://www.strava.com/oauth/token'
-      +'?client_id=' + this.getClientId()
-      +'&client_secret=' + this.getClientSecret()
-      +'&refresh_token=' + this.getRefreshToken()
-      + '&grant_type=refresh_token', {
-        method: 'post',
-        "headers": this.getHeaders()
-      }
-    );
-
-    const responseJson = await response.json();
-    localStorage.setItem('token', responseJson.access_token);
-
-    return responseJson;
+  public async openAppWithCodeOnUrl() {//#
+    const stravaAPICode = await this.getCodeFromUrl(window.location.href);
+    window.location.href = 'caminoxrutaepica://home?token=' +stravaAPICode + '&scope';
   }
 
-  public initFlow(): Promise<void> {
-    if (this.userHasRefresToken()) {
-      this.setUserDataOnLS();
-      return Promise.resolve();
-    }
-
-    if (this.comesFromObtainCode()) {
-      this.setCodeFromUrl();
-      return Promise.resolve();
-    }
-
-    this.goToStravaPageToAskForCodeFirstTime();
-    return Promise.resolve();
-  }
-
-  private async setCodeFromUrl() {
-    const stringUrl = window.localStorage.getItem('URL_FROM');
-    const code = this.getCodeFromUrl(stringUrl);
-    await this.getAccessTokenWithCode(code);
-  }
-
-  public async getAccessTokenWithCode(code: string): Promise<string> {
+  public async getUserAccessToken(code: string): Promise<void> {
     const headers = this.getHeaders();
     const body = this.getBody(code);
 
@@ -71,18 +38,32 @@ export class StravaService {
     const responseJson = await response.json();
 
     this.saveDataResponse(responseJson);
-
-    return responseJson.access_token;
   }
 
-  private async setUserDataOnLS() {
-    const token = localStorage.getItem('token') || 'token';
+  public async saveNoCaducableAccessToken(): Promise<any> {
+    const response = await fetch('https://www.strava.com/oauth/token'
+      +'?client_id=' + this.getClientId()
+      +'&client_secret=' + this.getClientSecret()
+      +'&refresh_token=' + this.getRefreshToken()
+      + '&grant_type=refresh_token', {
+        method: 'post',
+        "headers": this.getHeaders()
+      }
+    );
+
+    const responseJson = await response.json();
+    localStorage.setItem(LOCAL_STORAGE.stravaAccessToken, responseJson.access_token);
+  }
+
+  public async getUserStravaActivities(): Promise<any> {
+    const token = localStorage.getItem(LOCAL_STORAGE.stravaAccessToken) || 'token';
     const from = this.getEpochInitDate();
     const stravActivities = await this.getStravaAtivities(token, from);
-    // activitiesList = this.us.mapActivities(stravActivities);
+
+    return stravActivities;
   }
 
-  public async getStravaAtivities(token: string, from: string, page = 1, activities?:any): Promise<any> {
+  private async getStravaAtivities(token: string, from: string, page = 1, activities?:any): Promise<any> {
     let responsesDeposit: any[] = [];
     if (page === 1) {
       responsesDeposit = [];
@@ -112,6 +93,20 @@ export class StravaService {
     return responsesDeposit;
   }
 
+  public formatActivities(activities: any): IUserSession[] {
+    let activitiesList: IUserSession[] = []
+
+    activities.forEach((track: any, index: number) => {
+      activitiesList.push(
+        {
+          date: track.day,
+          steps: this.us.getStepsFromMeters(track.distance)
+        }
+      )
+    });
+    return activitiesList;
+  }
+
   private getEpochInitDate(): string {
     const userData: IUserData = this.us.getLS(LOCAL_STORAGE.userData);
     return userData.initDate.toString();
@@ -123,14 +118,6 @@ export class StravaService {
     localStorage.setItem('userId', userTokensResponse?.athlete.id);
   }
 
-  private comesFromObtainCode(): boolean | undefined {
-    return window.localStorage.getItem('URL_FROM')?.includes('code');
-  }
-
-  private userHasRefresToken() {
-    return Boolean(localStorage.getItem('refresh_token'));
-  }
-
   private getClientId(): string {
     return '120714'
   }
@@ -140,7 +127,7 @@ export class StravaService {
   }
 
   private getRefreshToken(): string {
-    return localStorage.getItem('refresh_token')?.toString() || '';
+    return localStorage.getItem(LOCAL_STORAGE.stravaCode)?.toString() || '';
   }
 
   private getHeaders() {
@@ -158,21 +145,15 @@ export class StravaService {
     });
   }
 
-  private getRedirectUrl(): string {
-    return 'https://camino-x-ruta-epica.web.app/data';
+  private getRedirectUrl(): string {////#strava-step 3 open APP with token on url [URL is captured in index.html script on URL_FROM]
+    return 'https://camino-x-ruta-epica.firebaseapp.com';
   }
 
-  //WEB FLOW
-  public async getCodeFromUrlAndOpenAPP() {
-    const code = this.getCodeFromUrl(window.location.href);
-    // window.location.href = 'epicroutes://data?code=' + code + '&scope'; //TODO CHANGE
-    // await AppLauncher.openUrl({ url: 'running.steps.epic://home?code='+code+'&scope'});
-  }
-
-  private getCodeFromUrl(stringUrl: any) {
+  private getCodeFromUrl(stringUrl: any) { //get app from redirect from STRAVA
     return stringUrl.substring(
       stringUrl.indexOf('code') + 'code.'.length,
       stringUrl.indexOf('&scope')
     );
   }
+
 }
