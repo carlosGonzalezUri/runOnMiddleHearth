@@ -19,7 +19,7 @@ export class UtilsService {
   }
 
   public getStepsFromMeters(meters: number): number {
-    return 1000/ONE_STEP_METERS * meters;
+    return ONE_STEP_METERS/1000 * meters;
   }
 
   public getLastUbicacion(currentDistanceKilometers: number): IUbicacion {
@@ -81,7 +81,7 @@ export class UtilsService {
     const totalPasos = sessionList.reduce(
       (acumulado, sesion) => acumulado + sesion.steps, 0);
 
-    return totalPasos;
+    return parseFloat(totalPasos.toFixed(2));;
   }
 
   public formatDate(date: Date) {

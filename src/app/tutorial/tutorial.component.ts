@@ -22,10 +22,11 @@ export class TutorialComponent  implements OnInit {
   public close(mode: string) {
     this.us.setLS(LOCAL_STORAGE.insertDataMode, mode);
 
-    if (mode === 'manual') {
-      this.closeTutorial.emit();
-      return;
-    }
+    // if (mode === 'manual') {
+    //   this.closeTutorial.emit();
+    //   return;
+    // }
+    this.closeTutorial.emit();
 
     if (mode === 'strava') {
       this.initStravaFlow();

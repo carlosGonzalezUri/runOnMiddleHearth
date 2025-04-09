@@ -139,6 +139,8 @@
     "policy": "Ver política de privacidad",
     "end_congrats": "Enhorabuena",
     "end_subheader": "Has superado el reto",
-    "end_message": "Puedes reiniciar el reto o iniciar un nuevo reto descargando otra ruta épica desde ajustes"
+    "end_message": "Puedes reiniciar el reto o iniciar un nuevo reto descargando otra ruta épica desde ajustes",
+    "streak": "Seguidos",
+    "days": "días"
   }
 }

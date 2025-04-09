@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LOCAL_STORAGE } from './commons/commons.constants';
 import { UtilsService } from './utils.service';
-import { IUserData, IUserSession } from './commons/commons.interface';
+import { IUserData, IUserSession, StravaActivity } from './commons/commons.interface';
 
 
 @Injectable({
@@ -78,7 +78,7 @@ export class StravaService {
 
     const response = await fetch('https://www.strava.com/api/v3/athlete/activities'
       + '?before=' + epochTimeTomorrow //hasta
-      + '&after=' + from  //desde
+      + '&after=' + this.dateToUnixTimestamp(new Date(from))  //desde
       + '&per_page=' + MAX_ACTIVITIES //max
       + '&page=' + page //1 is default
       + '&access_token=' + token);
@@ -93,14 +93,19 @@ export class StravaService {
     return responsesDeposit;
   }
 
-  public formatActivities(activities: any): IUserSession[] {
+  private dateToUnixTimestamp(date: Date): number {
+    return Math.floor(date.getTime() / 1000); // Convierte de milisegundos a segundos
+  }
+
+  public formatActivities(activities: StravaActivity[]): IUserSession[] {
     let activitiesList: IUserSession[] = []
 
-    activities.forEach((track: any, index: number) => {
+    activities.forEach((track: StravaActivity, index: number) => {
       activitiesList.push(
         {
-          date: track.day,
-          steps: this.us.getStepsFromMeters(track.distance)
+          date: new Date(track.start_date),
+          steps: this.us.getStepsFromMeters(track.distance),
+          meters: track.distance
         }
       )
     });
@@ -115,6 +120,7 @@ export class StravaService {
   private saveDataResponse(userTokensResponse: any) {
     localStorage.setItem('token', userTokensResponse.access_token);
     localStorage.setItem('refresh_token', userTokensResponse.refresh_token);
+    localStorage.setItem('refresh_token', userTokensResponse.refresh_token);
     localStorage.setItem('userId', userTokensResponse?.athlete.id);
   }
 
@@ -127,7 +133,7 @@ export class StravaService {
   }
 
   private getRefreshToken(): string {
-    return localStorage.getItem(LOCAL_STORAGE.stravaCode)?.toString() || '';
+    return localStorage.getItem('refresh_token')?.toString() || '';
   }
 
   private getHeaders() {

@@ -12,6 +12,8 @@ import { ProgressbarComponent } from '../progressbar/progressbar.component';
 import { SettingsComponent } from '../settings/settings.component';
 import { LegalComponent } from '../legal/legal.component';
 import { TutorialComponent } from '../tutorial/tutorial.component';
+import { MainCardComponent } from '../main-card/main-card.component';
+import { ProgressMapComponent } from '../progress-map/progress-map.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { TutorialComponent } from '../tutorial/tutorial.component';
     ProgressbarComponent,
     SettingsComponent,
     LegalComponent,
-    TutorialComponent
+    TutorialComponent,
+    MainCardComponent,
+    ProgressMapComponent
   ]
 })
 export class HomePageModule {}

@@ -1,0 +1,52 @@
+<div class="scroll-container" #scrollContainer>
+  <div class="linea">
+    <div
+    class="icono-usuario"
+    [style.left.%]="getProgresoPorcentaje()"
+    [@slideInIcon]
+  >
+    🚶‍♂️
+  </div>
+    <ng-container *ngFor="let punto of recorrido; let i = index">
+      <div class="punto-wrapper tooltip">
+        <div
+          class="punto"
+          [ngClass]="{
+            visitado: isVisited(punto),
+            pendiente: !isVisited(punto),
+            actual: isActual(punto, i)
+          }"
+        >
+      <span class="icono-logro" [ngSwitch]="true">
+          <!-- <ng-container *ngSwitchCase="isVisited(punto)">⭐</ng-container> -->
+          <ng-container *ngSwitchCase="isActual(punto, i)">
+            <img src="../../assets/icons/ring.png" alt="" />
+          </ng-container>
+          <ng-container *ngSwitchCase="isVisited(punto)">
+            <img src="../../assets/icons/visited.png" alt="" />
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            <img src="../../assets/icons/destini.png" alt="" />
+          </ng-container>
+        </span>
+        </div>
+        <div class="tooltip-text">
+          {{ punto.distancia_km.toString()| translate }} kms
+        </div>
+        <div class="ubicacion">
+          {{ punto.ubicacion | translate }}
+        </div>
+      </div>
+      <div
+        *ngIf="i < recorrido.length - 1"
+        class="conector"
+        [style.background]="
+          i < puntoActualIndex ? '#4caf50' :
+          i === puntoActualIndex ? 'linear-gradient(to right, #4caf50 50%, #ccc 50%)' :
+          '#ccc'
+        "
+      ></div>
+    </ng-container>
+  </div>
+</div>

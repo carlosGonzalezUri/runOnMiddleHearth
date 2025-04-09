@@ -1,0 +1,109 @@
+.card {
+    padding: 16px 24px;
+    border: 1px solid orange;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        
+        &--left {
+
+            &-icon {
+                display: flex;
+                flex-direction: row;
+                gap: 12px;
+                align-items: center;
+                margin-bottom: 12px;
+
+                img {
+                    height: 64px;
+                }
+            }
+
+            &-streak {
+                font-size: 20px;
+                opacity: 0.6;
+            }
+
+            &-days-container {
+                &--days {
+                    font-size: 32px;
+                    margin-right: 4px;
+                }
+
+                &--text {
+                    font-size: 16px;
+                }
+            }
+        }
+
+        &--right {
+            img {
+                height: 56px;
+                transform: rotate(45deg);
+            }
+        }
+    }
+
+
+    &__week {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        gap: 4px;
+        padding-top: 8px;
+
+        &-days {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        img {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+    &__steps {
+        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+
+        &-title {
+            font-size: 18px;
+        }
+
+        &-counter {
+            align-items: baseline;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            &--current {
+                font-size: 48px;
+            }
+
+            &--totla {
+                font-size: 18px;
+            }
+
+            &--porcentaje {
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+hr {
+    border: 0;
+    clear:both;
+    display:block;
+    width: 96%;               
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    height: 1px;
+  }

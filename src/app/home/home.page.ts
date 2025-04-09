@@ -13,6 +13,7 @@ import { AlertController, Platform } from '@ionic/angular';
 import { StravaService } from '../strava.service';
 import { App } from '@capacitor/app';
 import { Subscription } from 'rxjs';
+import { USER_DATA_MOCK } from '../commons/data-mocks';
 
 @Component({
   selector: 'app-home',
@@ -51,6 +52,7 @@ export class HomePage implements OnInit, OnDestroy{
 
   public isShowLogros = false;
   public isShowGrafica = true;
+  public isShowProgress = false;
 
   public oneStepMetters = ONE_STEP_METERS;
 
@@ -71,9 +73,17 @@ export class HomePage implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
+    this.mockActivities();
+
+
+
     this.checkAppForIncommingParams();
     this.setPreviousLang()
     this.initLiterals();
+  }
+
+  public mockActivities() {
+    this.us.setLS(LOCAL_STORAGE.userData, USER_DATA_MOCK);
   }
 
   ngOnDestroy() {
@@ -88,13 +98,25 @@ export class HomePage implements OnInit, OnDestroy{
   }
 
   public showLogros(): void {
-    this.isShowLogros = true;
     this.isShowGrafica = false;
+    this.isShowProgress = false;
+
+    this.isShowLogros = true;
   }
 
   public showGrafica(): void {
     this.isShowLogros = false;
+    this.isShowProgress = false;
+
     this.isShowGrafica = true;
+    
+  }
+
+  public showProgress(): void {
+    this.isShowLogros = false;
+    this.isShowGrafica = false;
+
+    this.isShowProgress = true;
   }
 
   public showFooterCard() {
@@ -178,6 +200,7 @@ export class HomePage implements OnInit, OnDestroy{
       userData.sessions.push({
         date,
         steps: Number(distanceInSteps),
+        meters: Number(distanceInSteps) * (ONE_STEP_METERS/1000)
       });
       this.us.setLS(LOCAL_STORAGE.userData, userData);
 
@@ -198,7 +221,7 @@ export class HomePage implements OnInit, OnDestroy{
       if (window.location.href.includes('code')) {
         this.stravaService.openAppWithCodeOnUrl();
       } else {
-        this.stravaService.goToStravaPageToLogin();
+        // this.stravaService.goToStravaPageToLogin();
       }
     }
     //ENDS WEB FLOW
@@ -255,7 +278,7 @@ export class HomePage implements OnInit, OnDestroy{
     );
     this.progressBar = Math.round(this.currentPercentageNumber).toString();
 
-    this.currentLongestNumber = this.us.longestSession(userData.sessions).steps;
+    this.currentLongestNumber = parseFloat(this.us.longestSession(userData.sessions).steps.toFixed(2));
     this.currentKmsNumber = this.currentDistanceKilometers;
     this.currentStepsNumber = this.us.getTotalSteps(userData.sessions);
 

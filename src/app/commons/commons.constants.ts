@@ -3,7 +3,7 @@ export const LOCAL_STORAGE = {
     registered: 'registered',
     totalDistance: 'totalDistance',
     lang: 'lang',
-    insertDataMode: 'insertDataModee',
+    insertDataMode: 'insertDataMode',
     stravaCode: 'stravaCode',
     stravaAccessToken: 'stravaAccessToken'
 }

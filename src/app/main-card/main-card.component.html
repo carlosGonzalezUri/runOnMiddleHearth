@@ -1,0 +1,42 @@
+<div class="card">
+  <div class="card__header">
+    <div class="card__header--left">
+      <div class="card__header--left-icon">
+        <img src="../../assets/icons/fire2.png" alt="" />
+        <div>
+          <span class="card__header--left-streak">{{ 'LITERALS.streak' | translate | uppercase }}</span>
+          <div class="card__header--left-days-container">
+            <span class="card__header--left-days-container--days">{{consecutiveDays}}</span>
+            <span class="card__header--left-days-container--text">{{ 'LITERALS.days' | translate | uppercase }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card__header--right">
+      <img src="../../assets/icons/ring.png" alt="" />
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="card__week" *ngIf="week">
+    <div class="card__week-days" *ngFor="let item of week">
+      <img [attr.src]="'../../assets/icons/' + item.icono + '.png'" alt="icono" />
+      <span>{{item.day}}</span>
+    </div>
+
+  </div>
+
+  <div class="card__steps">
+    <span class="card__steps-title">{{ 'LITERALS.steps' | translate | uppercase }}</span>
+    <div class="card__steps-counter">
+      <div>
+        <span class="card__steps-counter--current">{{currentSteps}}</span>
+        <span class="card__steps-counter--total">/{{totalSteps}}</span>
+      </div>
+      <div class="card__steps-percentaje">{{porcentaje}}%</div>
+    </div>
+  </div>
+
+
+</div>
