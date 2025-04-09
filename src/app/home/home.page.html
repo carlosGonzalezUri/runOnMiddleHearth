@@ -48,6 +48,7 @@
       <app-main-card
       [LITERALS]="LITERALS"
       [porcentaje]="currentPercentageNumber"
+      [totalSteps]="totalSteps"
       >
       </app-main-card>
 
@@ -87,7 +88,7 @@
           [sesiones]="userSessions"
         ></app-progress-map>
 
-        <div class="card__steps-progress-bar">
+        <!-- <div class="card__steps-progress-bar">
           <app-progressbar
             *ngIf="currentPercentageNumber"
             class="main-card-progress-bar"
@@ -96,7 +97,7 @@
             [kmsToNextLogro]="kmsToNextLogro"
           >
           </app-progressbar>
-      </div>
+      </div> -->
         </div>
       </div>
 

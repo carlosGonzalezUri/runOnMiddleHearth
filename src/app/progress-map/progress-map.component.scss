@@ -1,138 +1,100 @@
 .scroll-container {
-    display: flex;
-    height: 150px;
-    width: 100%;
-    overflow-x: auto;
-    padding: 0.5rem 0;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
+  display: flex;
+  height: 150px;
+  width: 100%;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
 
-  .icono-logro {
-    font-size: 1.2rem;
-    line-height: 1;
-  }
-  
-  .linea {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    min-width: max-content;
-    padding: 0 1rem;
-  }
-  
-  .punto-wrapper {
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    min-width: 60px;
-  }
-  
-  .punto {
-    width: 24px;
-    height: 24px;
-    // border-radius: 50%;
-    background-color: white;
-    // border: 2px solid #ccc;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
+.linea {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: max-content;
+  padding: 0 1rem;
+  position: relative; /* Necesario para que los iconos se posicione bien dentro de la línea */
+}
 
-  .icono-usuario {
-    position: absolute;
-    top: -1.2rem; // Ajusta para que esté encima de la línea
-    transform: translateX(-50%);
-    font-size: 1.5rem; // Tamaño del icono
-    z-index: 5; // Para que no quede detrás de otros elementos
-    animation: latido 1.2s infinite ease-in-out; // Animación opcional
-  }
-  
-  .punto.visitado {
-    border-color: #2e7d32;
-    background-color: #e8f5e9;
-  }
-  
-  .punto.actual {
-    border-color: #2196f3;
-    background-color: #e3f2fd;
-    box-shadow: 0 0 6px #2196f3;
-    animation: latido 1.2s infinite ease-in-out;
-  }
-  
-  @keyframes latido {
-    0% {
-      transform: scale(1);
-    }
-    30% {
-      transform: scale(1.25);
-    }
-    60% {
-      transform: scale(1);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-  
-  .icono-logro {
-    font-size: 1rem;
-    color: #4caf50;
-  }
-  
-  .punto.pendiente .icono-logro {
-    color: #ccc;
-  }
-  
-  .ubicacion {
-    font-weight: 500;
-    font-size: 0.65rem;
-    margin-top: 0.3rem;
-    text-align: center;
-    max-width: 70px;
-    word-wrap: break-word;
-  }
-  
-  .conector {
-    height: 3px;
-    width: 80px;
-    border-radius: 2px;
-    transition: background 0.5s ease;
-    flex-shrink: 0;
-  }
-  
-  .tooltip {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .tooltip-text {
-    visibility: hidden;
-    background-color: #333;
-    color: #fff;
-    font-size: 0.6rem;
-    text-align: center;
-    border-radius: 6px;
-    padding: 0.3rem;
-    position: absolute;
-    z-index: 1;
-    bottom: 130%;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.3s;
-    width: max-content;
-    max-width: 150px;
-    white-space: normal;
-    pointer-events: none;
-  }
-  
-  .tooltip:hover .tooltip-text,
-  .tooltip:active .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-  }
-  
+.ubicacion {
+  max-width: 100px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.icono-logro {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.punto-wrapper {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-width: 60px;
+}
+
+.punto {
+  width: 24px;
+  height: 24px;
+  background-color: white;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.punto.visitado {
+  border-color: #2e7d32;
+  background-color: #e8f5e9;
+}
+
+// .punto.actual {
+//   border-color: #2196f3;
+//   background-color: #e3f2fd;
+//   box-shadow: 0 0 6px #2196f3;
+// }
+
+.conector {
+  height: 3px;
+  width: 80px;
+  border-radius: 2px;
+  transition: background 0.5s ease;
+  flex-shrink: 0;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  font-size: 0.6rem;
+  text-align: center;
+  border-radius: 6px;
+  padding: 0.3rem;
+  position: absolute;
+  z-index: 1;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  width: max-content;
+  max-width: 150px;
+  white-space: normal;
+  pointer-events: none;
+}
+
+.tooltip:hover .tooltip-text,
+.tooltip:active .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}

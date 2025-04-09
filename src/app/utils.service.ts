@@ -100,4 +100,8 @@ export class UtilsService {
   public getModelSelected(): string {
     return this.getLS(LOCAL_STORAGE.insertDataMode)
   }
+
+  public formatearNumero(numero: number){
+    return new Intl.NumberFormat("es-ES").format(numero);
+}
 }

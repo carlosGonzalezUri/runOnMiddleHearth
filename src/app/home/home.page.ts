@@ -43,6 +43,7 @@ export class HomePage implements OnInit, OnDestroy{
   public currentLongestNumber!: number;
   public currentKmsNumber!: number;
   public currentStepsNumber!: number;
+  public totalSteps!: string;
 
   public kmsToNextLogro!: number;
   public nextStop!: string;
@@ -281,6 +282,9 @@ export class HomePage implements OnInit, OnDestroy{
     this.currentLongestNumber = parseFloat(this.us.longestSession(userData.sessions).steps.toFixed(2));
     this.currentKmsNumber = this.currentDistanceKilometers;
     this.currentStepsNumber = this.us.getTotalSteps(userData.sessions);
+    this.totalSteps = 
+      this.us.formatearNumero(
+        this.us.getStepsFromMeters(recorrido.recorrido[recorrido.recorrido.length -1].distancia_km * 1000));
 
     this.loadChart(userData);
 

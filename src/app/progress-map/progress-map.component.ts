@@ -4,9 +4,11 @@ import {
   AfterViewInit,
   ViewChild,
   ElementRef,
+  ChangeDetectorRef
 } from '@angular/core';
 import { IUbicacion, IUserSession } from '../commons/commons.interface';
 import { trigger, transition, style, animate } from '@angular/animations';
+
 
 // export interface ILocationPoint {
 //   id: number;
@@ -44,9 +46,12 @@ export class ProgressMapComponent implements AfterViewInit {
   totalDistancia: number = 0;
   puntoActualIndex: number = 0;
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngAfterViewInit(): void {
     this.calcularDistanciaTotal();
     this.encontrarPuntoActual();
+    this.cdr.detectChanges();
     this.scrollToActual();
   }
 
@@ -89,9 +94,5 @@ export class ProgressMapComponent implements AfterViewInit {
     }, 500);
   }
 
-  getProgresoPorcentaje(): number {
-    const totalKm = this.recorrido[this.recorrido.length - 1]?.distancia_km || 1;
-    const recorridoKm = this.totalDistancia;
-    return Math.min(Math.max((recorridoKm / totalKm) * 100, 0), 100);
-  }
+
 }
