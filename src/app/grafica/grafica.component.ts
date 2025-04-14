@@ -36,6 +36,18 @@ export class GraficaComponent {
           type: 'line',
           data: this.getCharData(sessions),
           options: {
+            scales: {
+              x: {  // <-- axis is not array anymore, unlike before in v2.x: '[{'
+                grid: {
+                  color: 'darkslategrey',
+                }
+              },
+              y: {  // <-- axis is not array anymore, unlike before in v2.x: '[{'
+                grid: {
+                  color: 'darkslategrey',
+                }
+              }
+            },
             plugins: {
               legend: {
                 display: false,
@@ -43,7 +55,8 @@ export class GraficaComponent {
             },
             elements: {
               line: {
-                borderColor: 'black',
+                borderColor: '#fc4c02',
+                backgroundColor: 'white',
               },
             },
           },
@@ -62,6 +75,8 @@ export class GraficaComponent {
         {
           data: charData?.map((row: { steps: any }) => row.steps),
           borderColor: '#fc4c02',
+          backgroundColor: 'white',
+          color: 'white',
           tension: 0.2
         },
       ],

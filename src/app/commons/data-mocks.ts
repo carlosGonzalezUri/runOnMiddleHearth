@@ -42,7 +42,7 @@ export const USER_DATA_SESSIONS: IUserSession[] = [
     meters: 2100,
   },
   // Generación de 100 sesiones consecutivas, ajustando pasos y metros
-  ...Array.from({ length: 50 }, (_, index) => {
+  ...Array.from({ length: 10 }, (_, index) => {
     const date = new Date();
     date.setDate(date.getDate() - index);  // Restamos días para generar fechas consecutivas
     return {

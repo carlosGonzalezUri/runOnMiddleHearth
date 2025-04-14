@@ -40,11 +40,15 @@ import { trigger, transition, style, animate } from '@angular/animations';
 export class ProgressMapComponent implements AfterViewInit {
   @Input() recorrido: IUbicacion[] = [];
   @Input() sesiones: IUserSession[] = [];
+  @Input() currentDistance!: number;
 
   @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
 
   totalDistancia: number = 0;
   puntoActualIndex: number = 0;
+
+  public aux1 = 75;
+  public aux2 = 24;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -53,6 +57,15 @@ export class ProgressMapComponent implements AfterViewInit {
     this.encontrarPuntoActual();
     this.cdr.detectChanges();
     this.scrollToActual();
+    this.onScroll(); // Asegura que el fondo se actualiza inicialmente
+  }
+
+  onScroll() {
+    const scrollX = this.scrollContainer.nativeElement.scrollLeft;
+    // Desplaza el fondo horizontalmente en función del scroll
+    // this.scrollContainer.nativeElement.style.backgroundPosition = `-${scrollX}px 0`;
+    this.scrollContainer.nativeElement.style.backgroundPosition = `-${scrollX * 0.5}px 0`;
+
   }
 
   calcularDistanciaTotal(): void {
@@ -93,6 +106,23 @@ export class ProgressMapComponent implements AfterViewInit {
       }
     }, 500);
   }
+
+  getConectorGradient(index: number): string {
+    if (index !== this.puntoActualIndex) {
+      return '';
+    }
+  
+    const actual = this.recorrido[index];
+    const siguiente = this.recorrido[index + 1];
+    const distanciaTotal = siguiente.distancia_km - actual.distancia_km;
+    const distanciaRecorrida = this.currentDistance - actual.distancia_km;
+  
+    let porcentaje = (distanciaRecorrida / distanciaTotal) * 100;
+    porcentaje = Math.max(0, Math.min(100, porcentaje)); // Limita entre 0 y 100
+  
+    return `linear-gradient(to right, #4caf50 ${porcentaje}%, #ccc ${porcentaje}%)`;
+  }
+  
 
 
 }

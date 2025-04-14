@@ -44,6 +44,9 @@ export class HomePage implements OnInit, OnDestroy{
   public currentKmsNumber!: number;
   public currentStepsNumber!: number;
   public totalSteps!: string;
+  public nextPointSteps!: number;
+  public porcentajeToNext!: number;
+  public stepsOfNextLogro!: number;
 
   public kmsToNextLogro!: number;
   public nextStop!: string;
@@ -52,14 +55,16 @@ export class HomePage implements OnInit, OnDestroy{
   public userSessions!: IUserSession[];
 
   public isShowLogros = false;
-  public isShowGrafica = true;
-  public isShowProgress = false;
+  public isShowGrafica = false;
+  public isShowProgress = true;
 
   public oneStepMetters = ONE_STEP_METERS;
 
   public showHome = true;
   public showSettings = false;
   public showTutorial = false;
+
+  public isStravaModeSelected = true;
 
   private appUrlOpenSub: Subscription | undefined;
 
@@ -74,10 +79,10 @@ export class HomePage implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.mockActivities();
+    // this.mockActivities();
 
 
-
+    this.isStravaModeSelected = this.us.isStravaModeSelected();
     this.checkAppForIncommingParams();
     this.setPreviousLang()
     this.initLiterals();
@@ -296,9 +301,15 @@ export class HomePage implements OnInit, OnDestroy{
     this.kmsToNextLogro = this.us.formatToTwoDecimals(
       recorrido.recorrido[this.lastUbicacion.id].distancia_km - currentTotalKMS
     );
+    this.nextPointSteps = this.us.getStepsFromMeters(this.kmsToNextLogro);
     this.nextStop = recorrido.recorrido[this.lastUbicacion.id].ubicacion;
     this.stepsToNextLogro = Math.round(
       this.kmsToNextLogro * this.oneStepMetters
+    );
+    this.stepsOfNextLogro = this.us.getStepsFromMeters(
+      recorrido.recorrido[this.lastUbicacion.id].distancia_km * 1000)
+    this.porcentajeToNext = this.us.formatToTwoDecimals(
+      (this.stepsOfNextLogro / this.currentStepsNumber) * 100
     );
   }
 

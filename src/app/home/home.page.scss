@@ -144,6 +144,19 @@ ion-content {
     margin-bottom: 12px;
     flex:4;
     overflow: auto;
+    position: relative;
+    left: -8px;
+    width: calc(100% + 8px);
+
+    .progress_map {
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+  }
+
+  app-progress-map {
+    height: 100%;
   }
 
   .data-wrapper {

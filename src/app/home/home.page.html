@@ -46,14 +46,19 @@
 
       
       <app-main-card
+      *ngIf="nextPointSteps"
       [LITERALS]="LITERALS"
-      [porcentaje]="currentPercentageNumber"
-      [totalSteps]="totalSteps"
+      [nextPointSteps]="stepsOfNextLogro"
       >
       </app-main-card>
 
 
       <div class="button-icons-wrapper">
+        <div class="button-icons-wrapper-single-button" (click)="showProgress()">
+          <span class="button-icons-wrapper-single-button-title">
+            {{ 'LITERALS.percentage' | translate }}
+          </span>
+        </div>
         <div class="button-icons-wrapper-single-button" (click)="showGrafica()">
           <span class="button-icons-wrapper-single-button-title">
             {{ 'LITERALS.graf' | translate }}
@@ -62,11 +67,6 @@
         <div class="button-icons-wrapper-single-button" (click)="showLogros()">
           <span class="button-icons-wrapper-single-button-title">
             {{ 'LITERALS.logros' | translate }}
-          </span>
-        </div>
-        <div class="button-icons-wrapper-single-button" (click)="showProgress()">
-          <span class="button-icons-wrapper-single-button-title">
-            {{ 'LITERALS.percentage' | translate }}
           </span>
         </div>
       </div>
@@ -82,10 +82,11 @@
           *ngIf="isShowGrafica"
           [userSessions]="userSessions"
         ></app-grafica>
-        <div *ngIf="isShowProgress">
+        <div *ngIf="isShowProgress" class="progress_map">
           <app-progress-map
           [recorrido]="recorrido.recorrido"
           [sesiones]="userSessions"
+          [currentDistance]="currentKmsNumber"
         ></app-progress-map>
 
         <!-- <div class="card__steps-progress-bar">
@@ -183,7 +184,8 @@
           class="utils-btns-wrapper-btn utils-btns-wrapper-btn--add"
           (click)="askForNewData()"
         >
-          <span>{{ 'LITERALS.add' | translate | uppercase }}</span>
+          <span *ngIf="!isStravaModeSelected"> {{ 'LITERALS.add' | translate | uppercase }}</span>
+          <span *ngIf="isStravaModeSelected"> {{ 'LITERALS.refresh' | translate | uppercase }}</span>
         </div>
       </div>
 

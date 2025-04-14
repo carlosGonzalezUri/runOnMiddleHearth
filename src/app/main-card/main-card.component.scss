@@ -1,6 +1,6 @@
 .card {
     padding: 16px 24px;
-    border: 1px solid orange;
+    border: 1px solid white;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
@@ -104,6 +104,7 @@ hr {
     clear:both;
     display:block;
     width: 96%;               
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    // background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
     height: 1px;
   }

@@ -17,13 +17,14 @@ import { es } from 'date-fns/locale';
 })
 export class MainCardComponent implements OnInit {
   @Input() LITERALS!: Iliterals;
-  @Input() porcentaje!: number;
-  @Input() totalSteps!: string;
+  // @Input() porcentajeToNext!: number;
+  @Input({required: true}) nextPointSteps!: number;
 
   public week!: WeekProgress[];
   public consecutiveDays!: number
 
   public currentSteps!: number;
+  public porcentajeToNext!: number;
 
   constructor(private us: UtilsService) {}
 
@@ -38,6 +39,7 @@ export class MainCardComponent implements OnInit {
 
   private initData(userData: IUserData): void {
     this.currentSteps = this.us.getTotalSteps(userData.sessions);
+    this.porcentajeToNext = Math.round((this.currentSteps / this.nextPointSteps) * 100);
   }
 
   private getWeekProgress(sessions: IUserSession[]): WeekProgress[] {

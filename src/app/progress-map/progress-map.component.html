@@ -1,4 +1,4 @@
-<div class="scroll-container" #scrollContainer>
+<div class="scroll-container" #scrollContainer (scroll)="onScroll()">
   <div class="linea">
     <ng-container *ngFor="let punto of recorrido; let i = index">
       <div class="punto-wrapper tooltip">
@@ -33,10 +33,10 @@
         *ngIf="i < recorrido.length - 1"
         class="conector"
         [style.background]="
-          i < puntoActualIndex ? '#4caf50' :
-          i === puntoActualIndex ? 'linear-gradient(to right, #4caf50 50%, #ccc 50%)' :
-          '#ccc'
-        "
+            i < puntoActualIndex ? '#4caf50' :
+            i === puntoActualIndex ? getConectorGradient(i) :
+            '#ccc'
+          "
       ></div>
     </ng-container>
   </div>
